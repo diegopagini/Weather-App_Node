@@ -7,6 +7,7 @@ export class Searches {
 		// In JS we can create properties in the constructor without been previously declared.
 		this.history = [];
 		this.dbPath = './db/database.json';
+		this.readDB();
 	}
 
 	get mapboxParams() {
@@ -23,6 +24,14 @@ export class Searches {
 			units: 'metric',
 			lang: 'es',
 		};
+	}
+
+	get formattedHistory() {
+		return this.history.map((city) => {
+			let words = city.split(' ');
+			words = words.map((word) => word[0].toUpperCase() + word.substring(1));
+			return words.join(' ');
+		});
 	}
 
 	async searchCity(city = '') {
@@ -85,5 +94,11 @@ export class Searches {
 		fs.writeFileSync(this.dbPath, JSON.stringify(payload));
 	}
 
-	readDB() {}
+	readDB() {
+		if (!fs.existsSync(this.dbPath)) return;
+		// If the file exist.
+		const file = fs.readFileSync(this.dbPath, { encoding: 'utf-8' });
+		const { history } = JSON.parse(file);
+		this.history = history;
+	}
 }

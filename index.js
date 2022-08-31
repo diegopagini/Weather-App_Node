@@ -46,7 +46,7 @@ const main = async () => {
 				break;
 
 			case 2:
-				search.history.forEach((city, i) => {
+				search.formattedHistory.forEach((city, i) => {
 					const index = `${i + 1}.`.green;
 					console.log(`${index} ${city}`);
 				});
