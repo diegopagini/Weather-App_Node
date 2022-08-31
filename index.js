@@ -23,24 +23,33 @@ const main = async () => {
 				const cities = await search.searchCity(city);
 				// Select city
 				const id = await citiesToShow(cities);
+				// If no city is selected "continue" to skip the rest of the code.
+				if (id === 0) continue;
 				// Selected city
 				const selectedCity = cities.find((city) => city.id === id);
+				// Save on history
+				search.addToHistory(selectedCity.name);
 				// Get weather
 				const weather = await search.getWeather(selectedCity.lat, selectedCity.lng);
-
+				// Show weather
 				if (selectedCity) {
+					console.clear();
 					console.log('\nInformación de la ciudad\n'.green);
-					console.log('Ciudad: ', selectedCity.name);
+					console.log('Ciudad: ', selectedCity.name.yellow);
 					console.log('Lat: ', selectedCity.lat);
 					console.log('Lng: ', selectedCity.lng);
 					console.log('Temperatura: ', weather.temp);
 					console.log('Mínima: ', weather.min);
 					console.log('Máxima: ', weather.max);
-					console.log('Clima: ', weather.description);
+					console.log('Clima: ', weather.description.yellow);
 				}
 				break;
 
 			case 2:
+				search.history.forEach((city, i) => {
+					const index = `${i + 1}.`.green;
+					console.log(`${index} ${city}`);
+				});
 				break;
 		}
 

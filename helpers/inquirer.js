@@ -73,7 +73,7 @@ const citiesToShow = async (cities = []) => {
 		name: `${(index + 1 + '.').green} ${city.name}`,
 	}));
 
-	choices.unshift({ value: '0', name: '0.'.yellow + ' Cancelar' });
+	choices.unshift({ value: 0, name: '0.'.yellow + ' Cancelar' });
 
 	const questions = [
 		{
@@ -88,18 +88,5 @@ const citiesToShow = async (cities = []) => {
 	return id;
 };
 
-const confirm = async (message = '') => {
-	const question = [
-		{
-			type: 'confirm', // Type to confirm.
-			name: 'ok',
-			message,
-		},
-	];
-
-	const { ok } = await inquirer.prompt(question);
-	return ok;
-};
-
-export { inquirerMenu, pause, readInput, citiesToShow, confirm };
+export { inquirerMenu, pause, readInput, citiesToShow };
 // Another way to export. Avoiding the use of export in const and using it this way.

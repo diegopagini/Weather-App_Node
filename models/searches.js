@@ -1,10 +1,12 @@
 /** @format */
 import axios from 'axios';
+import fs from 'fs';
 
 export class Searches {
 	constructor() {
 		// In JS we can create properties in the constructor without been previously declared.
 		this.history = [];
+		this.dbPath = './db/database.json';
 	}
 
 	get mapboxParams() {
@@ -53,8 +55,8 @@ export class Searches {
 				},
 			});
 
-			const response = await instance.get();
-			const { weather, main } = response.data;
+			const { data } = await instance.get();
+			const { weather, main } = data;
 
 			return {
 				description: weather[0].description,
@@ -66,4 +68,22 @@ export class Searches {
 			console.log(error);
 		}
 	}
+
+	addToHistory(city = '') {
+		// If the city already exist in our array:
+		if (this.history.includes(city.toLocaleLowerCase())) return;
+		// If not we added it to the list.
+		this.history.unshift(city.toLocaleLowerCase());
+		// To save in our local .json
+		this.saveDB();
+	}
+
+	saveDB() {
+		const payload = {
+			history: this.history,
+		};
+		fs.writeFileSync(this.dbPath, JSON.stringify(payload));
+	}
+
+	readDB() {}
 }
