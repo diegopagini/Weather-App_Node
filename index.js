@@ -1,8 +1,12 @@
 /** @format */
 import 'colors';
 
+import { config } from 'dotenv';
+
 import { inquirerMenu, pause, readInput } from './helpers/inquirer.js';
 import { Searches } from './models/searches.js';
+
+config(); // To use local environment variables in node.
 
 const main = async () => {
 	const search = new Searches();
@@ -14,6 +18,7 @@ const main = async () => {
 		switch (option) {
 			case 1:
 				const city = await readInput('\nCiudad: ');
+				await search.searchCity(city);
 
 				console.log('\nInformación de la ciudad\n'.green);
 				console.log('Ciudad:');
