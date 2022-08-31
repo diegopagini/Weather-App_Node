@@ -25,15 +25,18 @@ const main = async () => {
 				const id = await citiesToShow(cities);
 				// Selected city
 				const selectedCity = cities.find((city) => city.id === id);
+				// Get weather
+				const weather = await search.getWeather(selectedCity.lat, selectedCity.lng);
 
 				if (selectedCity) {
 					console.log('\nInformación de la ciudad\n'.green);
 					console.log('Ciudad: ', selectedCity.name);
 					console.log('Lat: ', selectedCity.lat);
 					console.log('Lng: ', selectedCity.lng);
-					console.log('Temperatura:');
-					console.log('Mínima:');
-					console.log('Máxima:');
+					console.log('Temperatura: ', weather.temp);
+					console.log('Mínima: ', weather.min);
+					console.log('Máxima: ', weather.max);
+					console.log('Clima: ', weather.description);
 				}
 				break;
 
