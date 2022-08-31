@@ -3,7 +3,7 @@ import 'colors';
 
 import { config } from 'dotenv';
 
-import { inquirerMenu, pause, readInput } from './helpers/inquirer.js';
+import { citiesToShow, inquirerMenu, pause, readInput } from './helpers/inquirer.js';
 import { Searches } from './models/searches.js';
 
 config(); // To use local environment variables in node.
@@ -17,17 +17,24 @@ const main = async () => {
 
 		switch (option) {
 			case 1:
+				// Show message
 				const city = await readInput('\nCiudad: ');
-				await search.searchCity(city);
+				// Search cities
+				const cities = await search.searchCity(city);
+				// Select city
+				const id = await citiesToShow(cities);
+				// Selected city
+				const selectedCity = cities.find((city) => city.id === id);
 
-				console.log('\nInformación de la ciudad\n'.green);
-				console.log('Ciudad:');
-				console.log('Lat:');
-				console.log('Lng:');
-				console.log('Temperatura:');
-				console.log('Mínima:');
-				console.log('Máxima:');
-
+				if (selectedCity) {
+					console.log('\nInformación de la ciudad\n'.green);
+					console.log('Ciudad: ', selectedCity.name);
+					console.log('Lat: ', selectedCity.lat);
+					console.log('Lng: ', selectedCity.lng);
+					console.log('Temperatura:');
+					console.log('Mínima:');
+					console.log('Máxima:');
+				}
 				break;
 
 			case 2:
