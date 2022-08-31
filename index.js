@@ -1,9 +1,13 @@
 /** @format */
-import { readInput } from './helpers/inquirer.js';
+import { inquirerMenu, pause } from './helpers/inquirer.js';
 
 const main = async () => {
-	const text = await readInput('hola mundo');
-	console.log(text);
+	let option;
+
+	do {
+		option = await inquirerMenu();
+		await pause();
+	} while (option !== 0);
 };
 
 main();
